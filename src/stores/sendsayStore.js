@@ -13,6 +13,15 @@ class SendsayStore {
     constructor() {
         makeAutoObservable(this);
         this.session = localStorage.getItem(SENDSAY_SESSION);
+        if (this.session) {
+            (async () => {
+                const response = await sendsay.request({action: "pong", session: this.session});
+                runInAction(() => {
+                    this.account = response.account;
+                    this.sublogin = response.sublogin;
+                });
+            })();
+        }
     }
 
     login = async ({login, sublogin, password}) => {
@@ -26,12 +35,18 @@ class SendsayStore {
                 this.sublogin = response.sublogin;
             });
 
-        }
-        catch (error) {
+        } catch (error) {
             runInAction(() => {
                 this.message = JSON.stringify({id: error.id, explain: error.explain});
             });
         }
+    }
+
+    logout = () => {
+        this.session = undefined;
+        localStorage.removeItem(SENDSAY_SESSION);
+        this.account = undefined;
+        this.sublogin = undefined;
     }
 }
 

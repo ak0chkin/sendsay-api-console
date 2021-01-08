@@ -13,6 +13,10 @@ code {
     monospace;
 }
 
+input {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+}
+
 *,
 *:after,
 *:before {
@@ -21,10 +25,72 @@ code {
     box-sizing: border-box;
 }
 
-#root {
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
+.d-flex {
+    display: flex !important;
     align-items: center;
+}
+
+.mr-auto {
+    margin-right: auto !important;
+}
+
+.ml-auto {
+    margin-left: auto !important;
+}
+
+.button {
+    display: flex;
     justify-content: center;
+    align-items: center;
+    padding: 5px;
+}
+
+.button-send {
+    width: 140px;
+    height: 40px;
+    border: none;
+    background: linear-gradient(180deg, #45A6FF 0%, #0055FB 100%), #C4C4C4;
+    border-radius: 5px;
+    color: #ffffff;
+    font-size: 18px;
+}
+
+.button-send:focus {
+    box-shadow: 0 0 0 2px #45A5FF;
+}
+
+.button-send:hover {
+    background: linear-gradient(0deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.15)), linear-gradient(180deg, #45A6FF 0%, #0055FB 100%), #C4C4C4;
+    cursor: pointer;
+}
+
+.button-send:active {
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.15)), linear-gradient(180deg, #45A6FF 0%, #0055FB 100%), #C4C4C4;
+}
+
+.button-send:disabled {
+    background: linear-gradient(0deg, #C4C4C4, #C4C4C4), linear-gradient(180deg, #45A6FF 0%, #0055FB 100%);
+}
+
+.button-transparent {
+    border: none;
+    background-color: transparent;
+}
+
+.button-transparent:hover {
+    color: #0055fb;
+}
+
+.button-transparent:hover path {
+    stroke: #0055fb;
+}
+
+.button-transparent:focus {
+    color: #0055fb;
+    box-shadow: 0 0 0 2px rgba(69, 165, 255, 0.5);
+    border-radius: 5px;
+}
+
+.button-transparent:focus path {
+    stroke: #0055fb;
 }

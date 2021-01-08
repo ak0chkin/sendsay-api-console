@@ -3,54 +3,58 @@ import {Field, Form} from 'react-final-form'
 import './index.css';
 import validate from './validate';
 import {inject, observer} from 'mobx-react';
-import meh from './meh.svg';
-import loading from './loading.svg';
+import {ReactComponent as Logo} from '../../sendsay.svg'
+import {ReactComponent as Meh} from './meh.svg';
+import {ReactComponent as Loader} from './loader.svg'
 
 
-const fieldAdapter = ({input, type, label, placeholder, meta: {asyncValidating, touched, error}}) => (
+const fieldAdapter = ({input, type, label, annotation, placeholder, meta: {touched, error}}) => (
     <div className="input-group">
         <label className="input-group__label">{label}</label>
-        <div className={asyncValidating ? "async-validating" : ""}>
-            <input type={type} {...input} className="input-group__field" placeholder={placeholder}/>
-            {touched && error && <span className="input-group__error">{error}</span>}
-        </div>
+        <span className="input-group__annotation ml-auto">{annotation}</span>
+        <input type={type} {...input} className="input-group__field" placeholder={placeholder}/>
+        {touched && error && <span className="input-group__error">{error}</span>}
     </div>
 )
 
 const formAdapter = inject("sendsayStore")(observer(({sendsayStore, handleSubmit, submitting, valid}) => (
     <form onSubmit={handleSubmit}>
+        <div className="login__title">API-консолька</div>
         {sendsayStore.message && (
             <div className="alert alert_error">
-                <img src={meh} alt="meh"/>
+                <Meh className="alert__img"/>
                 <div className="alert__title">Вход не вышел</div>
                 <div/>
                 <div className="alert__text">{sendsayStore.message}</div>
             </div>
         )}
         <Field name="login" component={fieldAdapter} type="text" label="Логин" placeholder="Логин"/>
-        <Field name="sublogin" component={fieldAdapter} type="text" label="Сублогин"
+        <Field name="sublogin" component={fieldAdapter} type="text" label="Сублогин" annotation="Опционально"
                placeholder="Сублогин (опционально)"/>
         <Field name="password" component={fieldAdapter} type="password" label="Пароль"
                placeholder="Пароль"/>
-        <button type="submit" className="btn-send" disabled={!valid}>
+        <button type="submit" className="button button-send" disabled={!valid}>
             {!submitting
-                ? "Войти"
-                : <img src={loading} alt="loading"/>}
+                ? <span>Войти</span>
+                : <Loader/>}
         </button>
     </form>
 )))
 
 const Login = ({sendsayStore}) => {
-
     const handleLogin = async (values) => {
         await sendsayStore.login(values);
     }
 
     return (
-        <div className="Login">
-            <Form onSubmit={handleLogin} validate={validate}
-                  initialValues={{login: "x_1606239365321773", password: "Hui427386"}}
-                  component={formAdapter}/>
+        <div className="login">
+            <Logo className="login__logo"/>
+            <div className="login-contentwrapper">
+                <Form onSubmit={handleLogin} validate={validate}
+                      initialValues={{login: "x_1606239365321773", sublogin: "testexercise", password: "Kek427386"}}
+                      component={formAdapter}/>
+            </div>
+            <a className="gh-link" href="https://github.com/ak0chkin" target="_blank">@akochkin</a>
         </div>
     );
 }

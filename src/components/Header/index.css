@@ -1,0 +1,39 @@
+.header {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.header ul {
+    margin: 10px 15px;
+    padding: 0;
+}
+
+.header ul li {
+    list-style: none;
+    padding: 0 10px;
+}
+
+.header ul li:first-child {
+    padding-left: 0;
+}
+
+.header ul li:last-child {
+    padding-right: 0;
+}
+
+.header__title {
+    font-size: 20px;
+    line-height: 30px;
+}
+
+.header__user-info {
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    padding: 5px 10px;
+}
+
+.logout {
+    margin-left: 10px;
+}
