@@ -8,18 +8,27 @@ class SendsayStore {
     session = undefined;
     account = undefined;
     sublogin = undefined;
-    message = '';
+    input = undefined;
+    output = undefined;
 
     constructor() {
         makeAutoObservable(this);
         this.session = localStorage.getItem(SENDSAY_SESSION);
         if (this.session) {
             (async () => {
-                const response = await sendsay.request({action: "pong", session: this.session});
-                runInAction(() => {
-                    this.account = response.account;
-                    this.sublogin = response.sublogin;
-                });
+                try {
+                    const response = await sendsay.request({action: "pong", session: this.session});
+                    runInAction(() => {
+                        this.account = response.account;
+                        this.sublogin = response.sublogin;
+                    });
+                }
+                catch (error)
+                {
+                    if (error.explain === "expired") {
+                        this.logout();
+                    }
+                }
             })();
         }
     }
@@ -34,11 +43,10 @@ class SendsayStore {
                 this.account = response.account;
                 this.sublogin = response.sublogin;
             });
+            return undefined;
 
         } catch (error) {
-            runInAction(() => {
-                this.message = JSON.stringify({id: error.id, explain: error.explain});
-            });
+            return JSON.stringify({id: error.id, explain: error.explain});
         }
     }
 
@@ -47,6 +55,36 @@ class SendsayStore {
         localStorage.removeItem(SENDSAY_SESSION);
         this.account = undefined;
         this.sublogin = undefined;
+        this.input = undefined;
+        this.output = undefined;
+    }
+
+    change = (value) => {
+        this.input = value;
+    }
+
+    prettify = () => {
+        try {
+            this.input = JSON.stringify(JSON.parse(this.input), null, 2);
+        }
+        catch (error) {
+
+        }
+
+    }
+
+    fetch = async () => {
+        try {
+            const response = await sendsay.request({...JSON.parse(this.input), session: this.session});
+            runInAction(() => {
+                this.output = JSON.stringify(response, null, 2);
+            });
+        }
+        catch (error) {
+            runInAction(() => {
+                this.output = error.toString();
+            });
+        }
     }
 }
 

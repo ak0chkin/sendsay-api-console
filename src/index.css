@@ -43,7 +43,9 @@ input {
     justify-content: center;
     align-items: center;
     padding: 5px;
+    cursor: pointer;
 }
+
 
 .button-send {
     width: 140px;
@@ -93,4 +95,15 @@ input {
 
 .button-transparent:focus path {
     stroke: #0055fb;
+}
+
+.gh-link {
+    font-size: 16px;
+    line-height: 20px;
+    color: #999999;
+    text-decoration: none;
+}
+
+.gh-link:hover {
+    color: #0055fb;
 }

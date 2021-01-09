@@ -1,0 +1,18 @@
+.editor {
+    display: flex;
+    flex-direction: column;
+}
+
+.editor-contentwrapper  {
+    display: grid;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    background-color: #fff;
+    padding: 5px;
+}
+
+.editor__title {
+    font-size: 12px;
+    line-height: 20px;
+    color: #999999;
+}

@@ -6,6 +6,7 @@ import {inject, observer} from 'mobx-react';
 import {ReactComponent as Logo} from '../../sendsay.svg'
 import {ReactComponent as Meh} from './meh.svg';
 import {ReactComponent as Loader} from './loader.svg'
+import {useState} from 'react';
 
 
 const fieldAdapter = ({input, type, label, annotation, placeholder, meta: {touched, error}}) => (
@@ -17,15 +18,15 @@ const fieldAdapter = ({input, type, label, annotation, placeholder, meta: {touch
     </div>
 )
 
-const formAdapter = inject("sendsayStore")(observer(({sendsayStore, handleSubmit, submitting, valid}) => (
+const formAdapter = ({handleSubmit, message, submitting, valid}) => (
     <form onSubmit={handleSubmit}>
         <div className="login__title">API-консолька</div>
-        {sendsayStore.message && (
+        {message && (
             <div className="alert alert_error">
                 <Meh className="alert__img"/>
                 <div className="alert__title">Вход не вышел</div>
                 <div/>
-                <div className="alert__text">{sendsayStore.message}</div>
+                <div className="alert__text">{message}</div>
             </div>
         )}
         <Field name="login" component={fieldAdapter} type="text" label="Логин" placeholder="Логин"/>
@@ -39,22 +40,24 @@ const formAdapter = inject("sendsayStore")(observer(({sendsayStore, handleSubmit
                 : <Loader/>}
         </button>
     </form>
-)))
+)
 
 const Login = ({sendsayStore}) => {
+    const [message, setMessage] = useState(undefined);
+
     const handleLogin = async (values) => {
-        await sendsayStore.login(values);
+        setMessage(await sendsayStore.login(values));
     }
 
     return (
         <div className="login">
             <Logo className="login__logo"/>
             <div className="login-contentwrapper">
-                <Form onSubmit={handleLogin} validate={validate}
+                <Form onSubmit={handleLogin} validate={validate} message={message}
                       initialValues={{login: "x_1606239365321773", sublogin: "testexercise", password: "Kek427386"}}
-                      component={formAdapter}/>
+                      render={formAdapter}/>
             </div>
-            <a className="gh-link" href="https://github.com/ak0chkin" target="_blank">@akochkin</a>
+            <a className="gh-link" href="https://github.com/ak0chkin" target="_blank" rel="noreferrer">@akochkin</a>
         </div>
     );
 }
