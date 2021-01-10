@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import './index.css';
 import {inject, observer} from 'mobx-react';
 import {ReactComponent as Logo} from '../../sendsay.svg'
@@ -7,19 +7,27 @@ import {ReactComponent as Fullscreen} from './fullscreen.svg';
 import {ReactComponent as Windowed} from './windowed.svg';
 
 const Header = ({sendsayStore, appRef}) => {
-    const [fullscreen, setFullscreen] = useState(document.fullscreenElement || document.mozFullScreenElement || document.webkitFullscreenElement || document.msFullscreenElement);
+    const [fullscreen, setFullscreen] = useState(Boolean(document.fullscreenElement || document.mozFullScreenElement || document.webkitFullscreenElement || document.msFullscreenElement));
 
-    const toggleFullscreen =  (docEl) => {
+    useEffect(() => {
+        document.addEventListener('fullscreenchange', handleFullscreenChange);
+        return () => {
+            document.removeEventListener('fullscreenchange', handleFullscreenChange);
+        }
+    }, [])
+
+    const handleFullscreenChange = () => {
+        setFullscreen(state => !state);
+    }
+
+    const toggleFullscreen = (docEl) => {
         const requestFullscreen = docEl.requestFullscreen || docEl.mozRequestFullScreen || docEl.webkitRequestFullScreen || docEl.msRequestFullscreen;
         const cancelFullscreen = document.exitFullscreen || document.mozCancelFullScreen || document.webkitExitFullscreen || document.msExitFullscreen;
 
-        if(!document.fullscreenElement && !document.mozFullScreenElement && !document.webkitFullscreenElement && !document.msFullscreenElement) {
+        if (!document.fullscreenElement && !document.mozFullScreenElement && !document.webkitFullscreenElement && !document.msFullscreenElement) {
             requestFullscreen.call(appRef.current);
-            setFullscreen(true);
-        }
-        else {
+        } else {
             cancelFullscreen.call(document);
-            setFullscreen(false);
         }
     }
 
@@ -45,7 +53,9 @@ const Header = ({sendsayStore, appRef}) => {
                     </button>
                 </li>
                 <li>
-                    <button className="button button-transparent" onClick={() => {toggleFullscreen(appRef.current)}}>
+                    <button className="button button-transparent" onClick={() => {
+                        toggleFullscreen(appRef.current)
+                    }}>
                         {fullscreen ? <Windowed/> : <Fullscreen/>}
                     </button>
                 </li>
