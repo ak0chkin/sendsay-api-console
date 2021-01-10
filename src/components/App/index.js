@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useRef} from 'react';
 import './index.css';
 import Login from '../Login';
 import {inject, observer} from 'mobx-react';
@@ -7,11 +7,13 @@ import Editor from "../Editor";
 import Footer from "../Footer";
 
 const App = ({sendsayStore}) => {
+    const appRef = useRef();
+
     return (
-        <div className="App">
+        <div className="App" ref={appRef}>
             {!sendsayStore.session ? <Login/> :
                 <div>
-                    <Header/>
+                    <Header appRef={appRef}/>
                     <div className="editors-set">
                         <Editor title="Запрос:"
                                 config={{

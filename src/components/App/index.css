@@ -3,6 +3,10 @@
     flex-direction: column;
 }
 
+.App:fullscreen {
+    background-color: #f7f7f7;
+}
+
 .editors-set {
     display: grid;
     grid-template-columns: 1fr 1fr;

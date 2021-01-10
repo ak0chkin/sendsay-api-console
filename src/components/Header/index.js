@@ -1,11 +1,28 @@
-import React from 'react';
+import React, {useState} from 'react';
 import './index.css';
 import {inject, observer} from 'mobx-react';
 import {ReactComponent as Logo} from '../../sendsay.svg'
 import {ReactComponent as Logout} from './logout.svg';
 import {ReactComponent as Fullscreen} from './fullscreen.svg';
+import {ReactComponent as Windowed} from './windowed.svg';
 
-const Header = ({sendsayStore}) => {
+const Header = ({sendsayStore, appRef}) => {
+    const [fullscreen, setFullscreen] = useState(document.fullscreenElement || document.mozFullScreenElement || document.webkitFullscreenElement || document.msFullscreenElement);
+
+    const toggleFullscreen =  (docEl) => {
+        const requestFullscreen = docEl.requestFullscreen || docEl.mozRequestFullScreen || docEl.webkitRequestFullScreen || docEl.msRequestFullscreen;
+        const cancelFullscreen = document.exitFullscreen || document.mozCancelFullScreen || document.webkitExitFullscreen || document.msExitFullscreen;
+
+        if(!document.fullscreenElement && !document.mozFullScreenElement && !document.webkitFullscreenElement && !document.msFullscreenElement) {
+            requestFullscreen.call(appRef.current);
+            setFullscreen(true);
+        }
+        else {
+            cancelFullscreen.call(document);
+            setFullscreen(false);
+        }
+    }
+
     return (
         <header className="header d-flex">
             <ul className="d-flex">
@@ -28,8 +45,8 @@ const Header = ({sendsayStore}) => {
                     </button>
                 </li>
                 <li>
-                    <button className="button button-transparent">
-                        <Fullscreen/>
+                    <button className="button button-transparent" onClick={() => {toggleFullscreen(appRef.current)}}>
+                        {fullscreen ? <Windowed/> : <Fullscreen/>}
                     </button>
                 </li>
             </ul>
