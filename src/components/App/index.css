@@ -1,6 +1,7 @@
 .App {
     display: flex;
     flex-direction: column;
+    height: 100%;
 }
 
 .App:fullscreen {
@@ -9,6 +10,7 @@
 
 .editors-set {
     display: grid;
+    flex: auto;
     grid-template-columns: 1fr 1fr;
     grid-column-gap: 10px;
     padding: 10px 15px;

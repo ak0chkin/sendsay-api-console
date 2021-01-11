@@ -12,7 +12,7 @@ const App = ({sendsayStore}) => {
     return (
         <div className="App" ref={appRef}>
             {!sendsayStore.session ? <Login/> :
-                <div>
+                <>
                     <Header appRef={appRef}/>
                     <div className="editors-set">
                         <Editor title="Запрос:"
@@ -44,7 +44,7 @@ const App = ({sendsayStore}) => {
                                 }}/>
                     </div>
                     <Footer/>
-                </div>}
+                </>}
         </div>
     );
 }
