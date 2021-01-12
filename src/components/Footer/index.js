@@ -9,7 +9,7 @@ const Footer = ({sendsayStore}) => {
             <button type="button" className="button button-send" onClick={sendsayStore.fetch}>
                 <span>Отправить</span>
             </button>
-            <a className="gh-link" href="https://github.com/ak0chkin" target="_blank" rel="noreferrer">@akochkin</a>
+            <a className="gh-link" href="https://github.com/ak0chkin" target="_blank" rel="noreferrer">@ak0chkin</a>
             <button className="button button-transparent" onClick={sendsayStore.prettify}>
                 <Format className="prettify"/>
                 <span>Форматировать</span>

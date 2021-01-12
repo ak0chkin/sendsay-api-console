@@ -57,7 +57,7 @@ const Login = ({sendsayStore}) => {
                       initialValues={{login: "x_1606239365321773", sublogin: "testexercise", password: "Kek427386"}}
                       render={formAdapter}/>
             </div>
-            <a className="gh-link" href="https://github.com/ak0chkin" target="_blank" rel="noreferrer">@akochkin</a>
+            <a className="gh-link" href="https://github.com/ak0chkin" target="_blank" rel="noreferrer">@ak0chkin</a>
         </div>
     );
 }
